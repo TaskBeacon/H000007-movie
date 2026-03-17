@@ -1,0 +1,166 @@
+# ============================================================================
+# Base config (human run)
+# - Used by: python main.py
+# - Scope: human experiment only (no qa/sim section in this file)
+# ============================================================================
+
+# === Subject Form ===========================================================
+subinfo_fields:
+  - name: subject_id
+    type: int
+    constraints:
+      min: 101
+      max: 999
+      digits: 3
+  - name: subname
+    type: string
+  - name: age
+    type: int
+    constraints:
+      min: 5
+      max: 60
+  - name: gender
+    type: choice
+    choices:
+      - Male
+      - Female
+
+# === Subject Mapping ========================================================
+subinfo_mapping:
+  subject_id: Subject ID
+  subname: Name
+  age: Age
+  gender: Gender
+  Male: Male
+  Female: Female
+  registration_failed: Registration failed.
+  registration_successful: Registration successful!
+  invalid_input: "Invalid value for {field}."
+
+# === Display / Window =======================================================
+window:
+  size:
+    - 1920
+    - 1080
+  units: deg
+  screen: 0
+  bg_color: black
+  fullscreen: true
+  fullscreen_lock_escape: true
+  monitor_width_cm: 60
+  monitor_distance_cm: 72
+
+# === Task ===================================================================
+task:
+  task_name: eeg_movie_present_preview
+  save_path: ./outputs/human
+  language: Chinese
+  voice_name: zh-CN-YunyangNeural
+  voice_enabled: true
+  total_blocks: 1
+  total_trials: 2
+  trial_per_block: 2
+  conditions:
+    - movie
+  key_list:
+    - space
+  delta: 0.0
+  seed_mode: same_across_sub
+  overall_seed: 2025
+  input_mode: keyboard
+  hide_cursor: true
+
+# === Stimuli ================================================================
+stimuli:
+  fixation:
+    type: text
+    text: "+"
+    color: white
+
+  movie:
+    type: movie
+    filename: assets/demo_movie.mp4
+    size:
+      - 22.1
+      - 12.4
+    units: deg
+
+  instruction_text:
+    type: textbox
+    text: |
+      [Movie Task]
+
+      You will watch a short movie clip.
+      Please keep your eyes near screen center and minimize movement.
+
+      Press [Space] to start.
+    color: white
+    pos:
+      - 0
+      - 0
+    font: SimHei
+    alignment: center
+    letterHeight: 0.78
+    units: deg
+    size:
+      - 20
+      - 5
+
+  instruction_text_voice:
+    type: sound
+    file: assets/instruction_text_voice.mp3
+
+  good_bye:
+    type: textbox
+    text: |
+      Task completed.
+
+      Thank you for participating.
+      Press [Space] to exit.
+    color: white
+    font: SimHei
+    alignment: center
+    letterHeight: 0.78
+    units: deg
+    size:
+      - 20
+      - 5
+
+  good_bye_voice:
+    type: sound
+    file: assets/good_bye_voice.mp3
+
+# === Timing =================================================================
+timing:
+  pre_movie_fixation_duration: 0.05
+  movie_lead_in_duration: 0.05
+  movie_duration: 4.0
+
+# === Triggers ===============================================================
+triggers:
+  map:
+    exp_onset: 98
+    exp_end: 99
+    block_onset: 100
+    block_end: 101
+    movie_onset: 1
+    movie_offset: 2
+
+  driver:
+    type: serial_url
+    url: loop://
+    baudrate: 115200
+    timeout: 1
+    prefix:
+      - 1
+      - 225
+      - 1
+      - 0
+
+  policy:
+    strict: false
+
+  timing:
+    post_delay_s: 0.001
+
+
